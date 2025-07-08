@@ -1,0 +1,20 @@
+# Enforce LF line endings in Git
+* text=auto eol=lf
+
+# Treat specific file types as text
+*.ts text
+*.tsx text
+*.js text
+*.json text
+*.md text
+*.env text
+*.yml text
+*.yaml text
+*.sh text
+*.toml text
+*.html text
+*.css text
+*.scss text
+*.txt text
+Dockerfile
+.gitattributes
