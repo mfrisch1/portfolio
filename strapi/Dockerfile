@@ -1,35 +1,25 @@
-# Base image
 FROM node:20-alpine
+# Installing libvips-dev for sharp Compatibility
+RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
 
-# Install dependencies for sharp (image processing library)
-RUN apk add --no-cache \
-		build-base \
-		vips-dev \
-		libpng-dev \
-		zlib-dev \
-		libc6-compat \
-    python3 \
-    make \
-    g++ \
-    git
-
-# Set working directory
 WORKDIR /app
 
-# Copy package files
+# 1. Copy package files and install production deps
 COPY package.json package-lock.json ./
 
-# Install dependencies (Strapi CLI and project dep)
-RUN npm ci
+# 2. Install Strapi + Postgres driver
+RUN npm ci \
+  && npm install pg --saveRUN npm ci
 
-# Copy the rest of the application code
+# 3. Copy the rest of your Strapi app
 COPY . .
 
-# Build the admin panel (opt for prod)
-RUN npm run build
+# 4. (Optional) If you have a custom admin build step:
+# RUN npm run build
 
-# Expose Strapi's default port
 EXPOSE 1337
 
-# Start the strapi server
+# Start Strapi in dev mode
 CMD ["npm", "run", "develop"]

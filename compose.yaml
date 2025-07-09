@@ -1,4 +1,14 @@
 services:
+  go-app:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    container_name: go-app
+    ports:
+    - "8080:8080"
+    depends_on:
+      - strapi
+
   strapi:
     build: 
       context: ./strapi
@@ -6,14 +16,13 @@ services:
     image: strapi/strapi
     container_name: strapi
     environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_NAME: strapi
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USERNAME: strapi
+      DATABASE_CLIENT: postgres # type of database in use
+      DATABASE_NAME: ${POSTGRES_DB} # corresponds to POSTGRES_DB (database name)
+      DATABASE_HOST: postgres # service name
+      DATABASE_PORT: 5432 #default port
+      DATABASE_USERNAME: ${POSTGRES_USER}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./strapi:/app
+      DATABASE_SSL: ${STRAPI_SSL}
     ports:
       # Host port - access from outside 
       # Container port - access between service-to-service
@@ -23,6 +32,7 @@ services:
 
   postgres:
     image: postgres:14
+    container_name: postgres
     restart: always
     environment: 
       POSTGRES_DB: ${POSTGRES_DB}
@@ -30,18 +40,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes: 
       - pddata:/var/lib/postgresql/data
-
-  go-app:
-    build:
-      context: ./src
-      dockerfile: Dockerfile
-    container_name: go-app
-    ports:
-    - "8080:8080"
-    volumes:
-      - ./src:/app
-    depends_on:
-      - strapi
 
 volumes:
   pddata:
