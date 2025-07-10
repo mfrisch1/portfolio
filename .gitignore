@@ -1,28 +1,41 @@
-# Created by https://www.toptal.com/developers/gitignore/api/strapi,go
-# Edit at https://www.toptal.com/developers/gitignore?templates=strapi,go
+# Created by https://www.toptal.com/developers/gitignore/api/strapi,nextjs
+# Edit at https://www.toptal.com/developers/gitignore?templates=strapi,nextjs
 
-### Go ###
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+### NextJS ###
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# Test binary, built with `go test -c`
-*.test
+# testing
+/coverage
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# next.js
+/.next/
+/out/
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# production
+/build
 
-# Go workspace file
-go.work
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 ### Strapi ###
 
@@ -36,7 +49,6 @@ build
 ############################
 # OS X
 
-.DS_Store
 .AppleDouble
 .LSOverride
 Icon
@@ -75,12 +87,16 @@ $RECYCLE.BIN/
 *.zip
 *.com
 *.class
+*.dll
+*.exe
 *.o
 *.seed
+*.so
 *.swo
 *.swp
 *.swn
 *.swm
+*.out
 *.pid
 
 # Logs and databases
@@ -116,4 +132,4 @@ node_modules
 testApp
 coverage
 
-# End of https://www.toptal.com/developers/gitignore/api/strapi,go
+# End of https://www.toptal.com/developers/gitignore/api/strapi,nextjs

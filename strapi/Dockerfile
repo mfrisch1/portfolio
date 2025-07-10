@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 
 # 2. Install Strapi + Postgres driver
 RUN npm ci \
-  && npm install pg --saveRUN npm ci
+  && npm install pg --save
 
 # 3. Copy the rest of your Strapi app
 COPY . .
