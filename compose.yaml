@@ -29,7 +29,8 @@ services:
     environment:
       DATABASE_CLIENT: postgres # type of database in use
       DATABASE_NAME: ${POSTGRES_DB} # corresponds to POSTGRES_DB (database name)
-      DATABASE_HOST: postgres # service name DATABASE_PORT: 5432 #default port DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_HOST: postgres # service name DATABASE_PORT: 5432 #default port 
+      DATABASE_USERNAME: ${POSTGRES_USER}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_SSL: ${STRAPI_SSL}
     ports:
