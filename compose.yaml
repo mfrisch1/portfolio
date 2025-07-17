@@ -27,6 +27,8 @@ services:
       - ./backend/pnpm-lock.yaml:/opt/pnpm-lock.yaml
       - ./backend/.env:/opt/app/.env
       - ./backend/public/uploads:/opt/app/public/uploads
+      # added settings
+      - /opt/app/node_modules
     ports:
       - "1337:1337"
     networks:
@@ -40,7 +42,6 @@ services:
     restart: unless-stopped
     env_file: 
       - path: .env
-        required: true
     image: postgres:16.0-alpine
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
@@ -52,6 +53,22 @@ services:
 
     ports:
       - "5432:5432"
+    networks:
+      - strapi
+
+  next:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile # Dockerfile.prod for production setup
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - strapi
     networks:
       - strapi
 

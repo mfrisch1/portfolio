@@ -1,34 +1,31 @@
+# Base image
 FROM node:22-alpine
 
-# Install libvips-dev for sharp compatibility and pnpm
-RUN apk update && apk add --no-cache \
-    build-base \
-    gcc \
-    autoconf \
-    automake \
-    zlib-dev \
-    libpng-dev \
-    nasm \
-    bash \
-    vips-dev \
-    git && \
-    corepack enable && corepack prepare pnpm@latest --activate
-
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /opt/
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
-
-ENV PATH=/opt/node_modules/.bin:$PATH
-
+# Set working directory
 WORKDIR /opt/app
-COPY . .
-RUN chown -R node:node /opt/app
-USER node
-RUN pnpm run build
 
+# Install global pnpm
+RUN npm install -g pnpm
+
+# Copy manifests
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies (cached unless manifests change)
+RUN pnpm install --frozen-lockfile
+
+# Copy source code with correct permissions—no chown needed
+COPY --chown=node:node . .
+
+# Switch to non-root user
+USER node
+
+# Build admin panel
+RUN pnpm build
+
+# Expose port
 EXPOSE 1337
-CMD ["pnpm", "run", "develop"]
+
+# Dev mode with auto rebuild
+CMD ["pnpm", "develop"]
+
 
