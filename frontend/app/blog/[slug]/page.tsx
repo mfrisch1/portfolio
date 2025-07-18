@@ -3,10 +3,10 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/github.css'  // or your chosen theme
-import { fetchBlog } from '@/lib/api'
+import { getBlogByDocId } from '@/lib/api'
 
 export default async function Page({ params: { docId } }) {
-  const blog = await fetchBlog(docId)
+  const blog = await getBlogByDocId(docId)
   if (!blog) return notFound()
 
   return (
